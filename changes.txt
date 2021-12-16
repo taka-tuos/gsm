@@ -1,5 +1,10 @@
 GSModeSelector releases (at psx-scene)
 
+GSModeSelector v0.38-kagura-r1 (2021.12.17) by kagura1050
+Core:
+- Add new PS1 VMODE (SDTV 480i, force 480i and can be correctly displayed both of 240/480line games)
+(480i mode has VERY LARGE OFFSET... Use this offset setting: X:-72 Y:-108)
+
 GSModeSelector v0.38 (2014.08.24) by doctorxyz
 Core:
 - Thunder Pro II Gold v8.7b Modchip patch (useful for POPS stuff...)

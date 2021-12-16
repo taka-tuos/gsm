@@ -32,8 +32,8 @@
 #include "pad.h"
 
 #define TITLE			"Graphics Synthesizer Mode Selector"
-#define VERSION			"0.38"
-#define AUTHORS			"doctorxyz, dlanor, SP193 and reprep"
+#define VERSION			"0.38-kagura-r1"
+#define AUTHORS			"doctorxyz, dlanor, SP193 and reprep / kagura1050"
 
 #define gsKit_fontm_printf_scaled(gsGlobal, gsFontM, X, Y, Z, scale, color, format, args...) \
 	sprintf(tempstr, format, args); \
@@ -131,7 +131,7 @@ typedef struct exit_struct {
 //
 //	category	description								interlace			mode			 	ffmd	   	display							dh		dw		magv	magh	dy		dx		syncv
 //	--------	-----------								---------			----			 	----		----------------------------	--		--		----	----	--		--		-----
-static const predef_vmode_struct predef_vmode[30] = {
+static const predef_vmode_struct predef_vmode[] = {
 	{  SDTV_VMODE,"NTSC                           ",	GS_INTERLACED,		GS_MODE_NTSC,		GS_FIELD,	(u64)make_display_magic_number(	 447,	2559,	0,		3,		 46,	700),	0x00C7800601A01801},
 	{  SDTV_VMODE,"NTSC Non Interlaced            ",	GS_INTERLACED,		GS_MODE_NTSC,		GS_FRAME,	(u64)make_display_magic_number(	 223,	2559,	0,		3,		 26,	700),	0x00C7800601A01802},
 	{  SDTV_VMODE,"PAL                            ",	GS_INTERLACED,		GS_MODE_PAL,		GS_FIELD,	(u64)make_display_magic_number(	 511,	2559,	0,		3,		 70,	720),	0x00A9000502101401},
@@ -161,7 +161,9 @@ static const predef_vmode_struct predef_vmode[30] = {
 	{  VGA_VMODE, "VGA 1024x768p @75Hz            ",	GS_NONINTERLACED,	GS_MODE_VGA_1024_75, GS_FRAME, 	(u64)make_display_magic_number(  768,	1024,	0,		0,		 30,	260),	0x006C000001C00001},
 	{  VGA_VMODE, "VGA 1024x768p @85Hz            ",	GS_NONINTERLACED,	GS_MODE_VGA_1024_85, GS_FRAME,	(u64)make_display_magic_number(  768,	1024,	0,		0,		 30,	290),	0x006C000002400001},
 	{  VGA_VMODE, "VGA 1280x1024p @60Hz           ",	GS_NONINTERLACED,	GS_MODE_VGA_1280_60, GS_FRAME, 	(u64)make_display_magic_number(  1024,	1280,	1,		1,		 40,	350),	0x0070000002600001},
-	{  VGA_VMODE, "VGA 1280x1024p @75Hz           ",	GS_NONINTERLACED,	GS_MODE_VGA_1280_75, GS_FRAME, 	(u64)make_display_magic_number(  1024,	1280,	1,		1,		 40,	350),	0x0070000002600001}
+	{  VGA_VMODE, "VGA 1280x1024p @75Hz           ",	GS_NONINTERLACED,	GS_MODE_VGA_1280_75, GS_FRAME, 	(u64)make_display_magic_number(  1024,	1280,	1,		1,		 40,	350),	0x0070000002600001},
+
+	{  PS1_VMODE, "PS1 NTSC (SDTV 480i @60Hz)     ",	GS_INTERLACED,		GS_MODE_NTSC,		GS_FIELD,	(u64)make_display_magic_number(	 670,	2559,	0,		3,		 46,	700),	0x00C7800601A01801},
 }; //ends predef_vmode definition
 
 u32 predef_vmode_size = 	sizeof( predef_vmode ) / sizeof( predef_vmode[0] );
@@ -653,7 +655,9 @@ outer_loop_restart:
 		// OSD
 		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, 10, 1, 0.6f, YellowFont, TITLE);
 		rownumber = 4;
-		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "%s - by %s", VERSION, AUTHORS);
+		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "%s", VERSION);
+		rownumber++;
+		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "%s", AUTHORS);
 		rownumber++;
 		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_CIRCLE" SDTV vmodes");
 		rownumber++;
