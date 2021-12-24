@@ -25,6 +25,8 @@
 ==              (C) 2003 Marcus Brown <mrbrown@0xd6.org>    ==
 ==                                          ==
 ==================================================================*/
+
+#define NEWLIB_PORT_AWARE
 #include "tamtypes.h"
 #include "debug.h"
 #include "kernel.h"

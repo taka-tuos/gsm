@@ -1,6 +1,7 @@
 //--------------------------------------------------------------
 //File name:    elf.c
 //--------------------------------------------------------------
+#define NEWLIB_PORT_AWARE
 #include <stdio.h>
 #include <tamtypes.h>
 #include <loadfile.h>

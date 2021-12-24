@@ -10,6 +10,7 @@
 #
 */
 
+#define NEWLIB_PORT_AWARE
 #include <syscallnr.h>
 #include <stdio.h>
 #include <kernel.h>
@@ -116,7 +117,7 @@ typedef struct predef_vmode_struct {
 } predef_vmode_struct;
 
 typedef struct off_on_struct {
-	char desc[4];
+	char desc[15];
 	u8	value;
 } off_on_struct __attribute__((aligned(16)));
 

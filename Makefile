@@ -10,18 +10,18 @@ EE_INCS +=  -I$(PS2SDK)/ee/include -I$(PS2SDK)/ports/include -I$(GSKIT)/include 
 
 EE_LIBS = -lmc -lpad -lfileXio -lpatches -ldebug -lc -lkernel -L$(GSKIT)/lib -lgskit -ldmakit
 
-EE_LDFLAGS =  -nostartfiles -Tlinkfile -L$(PS2SDK)/ee/lib -L$(PS2SDK)/sbv/lib -s
+EE_LDFLAGS =  -L$(PS2SDK)/ee/lib -L$(PS2SDK)/sbv/lib -s
 
 #EE_LDFLAGS += -Xlinker -Map -Xlinker 'uncompressed $(PACKAGE).map'
 
 all: $(EE_BIN)
 	 rm -f 'uncompressed $(PACKAGE).ELF'
 	 mv $(PACKAGE).ELF 'uncompressed $(PACKAGE).ELF'
-	 ee-strip 'uncompressed $(PACKAGE).ELF'
+	 mips64r5900el-ps2-elf-strip 'uncompressed $(PACKAGE).ELF'
 	 ps2-packer 'uncompressed $(PACKAGE).ELF' $(PACKAGE).ELF > /dev/null
 
 dump:
-	ee-objdump -D 'uncompressed $(PACKAGE).ELF' > $(PACKAGE).dump
+	mips64r5900el-ps2-elf-objdump -D 'uncompressed $(PACKAGE).ELF' > $(PACKAGE).dump
 	ps2client netdump
 
 test:

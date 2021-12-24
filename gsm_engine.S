@@ -7,6 +7,10 @@
 # Review LICENSE file for further details.
 #
 
+#define ABI_EABI64
+
+#include <as_reg_compat.h>
+
 #include <ee_cop0_defs.h>
 #include <syscallnr.h>
 
@@ -48,6 +52,7 @@ GS_MODE_DTV_1080P=0x54
 #####################################################
 
 .section .gsm_engine, "a"
+.data
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -198,6 +203,9 @@ BD_t2:
 ############
 # Functions
 ############
+
+.p2align 4
+.text
 
 #
 # Hook_SetGsCrt:
@@ -1620,5 +1628,5 @@ Replacement_Code_sceMpegIsEnd:
 # .text section
 #####################################################
 
-.text
+#.text
 
