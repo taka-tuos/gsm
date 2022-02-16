@@ -17,7 +17,7 @@ EE_LDFLAGS =  -L$(PS2SDK)/ee/lib -L$(PS2SDK)/sbv/lib -s
 all: $(EE_BIN)
 	 rm -f 'uncompressed $(PACKAGE).ELF'
 	 mv $(PACKAGE).ELF 'uncompressed $(PACKAGE).ELF'
-	 mips64r5900el-ps2-elf-strip 'uncompressed $(PACKAGE).ELF'
+	 $(EE_PREFIX)strip 'uncompressed $(PACKAGE).ELF'
 	 ps2-packer 'uncompressed $(PACKAGE).ELF' $(PACKAGE).ELF > /dev/null
 
 dump:

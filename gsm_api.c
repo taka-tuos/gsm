@@ -571,7 +571,7 @@ void LoadModules(void)
 	}
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {   
 
 	//---------- Start of variables stuff ----------
@@ -639,186 +639,205 @@ int main(void)
 	//----------------------------------------------------------------------------
 	// Let's Setup GS by the first time
 	Setup_GS();
-	// FontM Init - Make it once and here!!! Avoid avoid EE Exceptions (for instance, memory leak & overflow)
-	gsFontM = gsKit_init_fontm();
-	gsKit_fontm_upload(gsGlobal, gsFontM);
-	gsFontM->Spacing = 0.95f;
-	gsKit_clear(gsGlobal, Black);
-	text_height = (26.0f * gsFontM->Spacing * 0.5f);
-	edge_size = text_height;
-
-	// Main loop
-outer_loop_restart:
-	while (!(updateflag == 0)) {//---------- Start of outer while loop ----------
-
+	
+	char *p0 = argv[0] + strlen(argv[0]);
+	for(;*p0 != '/' && *p0 != ':';p0--);
+	p0++;
+	
+	if(*p0 != 'V') {
+		// FontM Init - Make it once and here!!! Avoid avoid EE Exceptions (for instance, memory leak & overflow)
+		gsFontM = gsKit_init_fontm();
+		gsKit_fontm_upload(gsGlobal, gsFontM);
+		gsFontM->Spacing = 0.95f;
 		gsKit_clear(gsGlobal, Black);
-				
-		// OSD
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, 10, 1, 0.6f, YellowFont, TITLE);
-		rownumber = 4;
-		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "%s", VERSION);
-		rownumber++;
-		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "%s", AUTHORS);
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_CIRCLE" SDTV vmodes");
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_SQUARE" HDTV vmodes");
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_TRIANGLE" VGA vmodes");
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_CROSS" PS1 SDTV vmodes");
-		rownumber++;
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[DPAD] X and Y axis offsets");
-		rownumber++;
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[L1] Skip Videos fix");
-		rownumber++;
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[SELECT] Exit Method");
-		rownumber++;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[START] Exit");
-		rownumber++;
-		rownumber++;
-		if(predef_vmode_idx != 999) {
-			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "GS Mode Selected: %s", predef_vmode[predef_vmode_idx].desc);
-			rownumber++;
-		}
-		if(exit_option_idx != 999) {
-			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Exit Method Selected: %s", exit_option[exit_option_idx].desc);
-			rownumber++;
-		}
-		if(XOffset != 0) {
-			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "X-axis offset: %+d", XOffset);
-			rownumber++;
-		}
-		if(YOffset != 0) {
-			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Y-axis offset: %+d", YOffset);
-			rownumber++;
-		}
-		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Skip Videos fix: %s", off_on[skip_videos_idx].desc);
+		text_height = (26.0f * gsFontM->Spacing * 0.5f);
+		edge_size = text_height;
 
-		Draw_Screen();
+		// Main loop
+outer_loop_restart:
+		while (!(updateflag == 0)) {//---------- Start of outer while loop ----------
+
+			gsKit_clear(gsGlobal, Black);
+					
+			// OSD
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, 10, 1, 0.6f, YellowFont, TITLE);
+			rownumber = 4;
+			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "%s", VERSION);
+			rownumber++;
+			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (rownumber++)*9, 1, 0.4f, DarkOrangeFont, "- by %s", AUTHORS);
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_CIRCLE" SDTV vmodes");
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_SQUARE" HDTV vmodes");
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_TRIANGLE" VGA vmodes");
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, FONTM_CROSS" PS1 SDTV vmodes");
+			rownumber++;
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[DPAD] X and Y axis offsets");
+			rownumber++;
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[L1] Skip Videos fix");
+			rownumber++;
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[SELECT] Exit Method");
+			rownumber++;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, WhiteFont, "[START] Exit");
+			rownumber++;
+			rownumber++;
+			if(predef_vmode_idx != 999) {
+				gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "GS Mode Selected: %s", predef_vmode[predef_vmode_idx].desc);
+				rownumber++;
+			}
+			if(exit_option_idx != 999) {
+				gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Exit Method Selected: %s", exit_option[exit_option_idx].desc);
+				rownumber++;
+			}
+			if(XOffset != 0) {
+				gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "X-axis offset: %+d", XOffset);
+				rownumber++;
+			}
+			if(YOffset != 0) {
+				gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Y-axis offset: %+d", YOffset);
+				rownumber++;
+			}
+			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Skip Videos fix: %s", off_on[skip_videos_idx].desc);
+
+			Draw_Screen();
+
+			updateflag = -1;
+
+						
+			// Pad stuff
+			//---------- Start of inner while loop ----------
+			while (updateflag == -1) {
+
+				while(!(waitAnyPadReady(), readpad(), new_pad)); //await a new button
+				retval = paddata;
+				
+				if(retval == PAD_TRIANGLE)	{ //VGA
+					if (predef_vmode[predef_vmode_idx].category != VGA_VMODE) predef_vmode_idx = -1;
+					do
+					{
+						predef_vmode_idx++;
+						if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
+					}while (predef_vmode[predef_vmode_idx].category != VGA_VMODE);
+
+					updateflag = 1; //exit inner loop
+				}	
+				else if(retval == PAD_SQUARE){ //HDTV
+					if (predef_vmode[predef_vmode_idx].category != HDTV_VMODE) predef_vmode_idx = -1;
+					do
+					{
+						predef_vmode_idx++;
+						if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
+					}while (predef_vmode[predef_vmode_idx].category != HDTV_VMODE);
+
+					updateflag = 1; //exit inner loop
+
+				}	
+				else if(retval == PAD_CIRCLE)	{ //NTSC/PAL
+					if (predef_vmode[predef_vmode_idx].category != SDTV_VMODE) predef_vmode_idx = -1;
+					do
+					{
+						predef_vmode_idx++;
+						if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
+					}while (predef_vmode[predef_vmode_idx].category != SDTV_VMODE);
+
+					updateflag = 1; //exit inner loop
+				}	
+				else if(retval == PAD_CROSS)	{ //PS1 NTSC/PAL
+					if (predef_vmode[predef_vmode_idx].category != PS1_VMODE) predef_vmode_idx = -1;
+					do
+					{
+						predef_vmode_idx++;
+						if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
+					}while (predef_vmode[predef_vmode_idx].category != PS1_VMODE);
+
+					updateflag = 1; //exit inner loop
+				}
+				else if((retval == PAD_SELECT))	{ //Select Exit Method
+					exit_option_idx++;
+					if(exit_option_idx > (exit_option_size - 1)) exit_option_idx = 0;
+					updateflag = 1; //exit inner loop
+				}
+				else if(retval == PAD_START)	{ //Exit GSM
+					updateflag = 0; //exit outer loop
+				}
+				else if((retval == PAD_LEFT))	{ //Decrease DX
+					XOffset -= 4;
+					if(XOffset < -(4096/4)) XOffset += 4;
+					updateflag = 1; //exit inner loop
+				}
+				else if((retval == PAD_RIGHT))	{ //Increase DX
+					XOffset += 4;
+					if(XOffset > (4096/4)) XOffset -= 4;
+					updateflag = 1; //exit inner loop
+				}
+				else if((retval == PAD_UP))	{ //Increase DY
+					YOffset += 4;
+					if(YOffset > (2048/4)) YOffset -= 4;
+					updateflag = 1; //exit inner loop
+				}
+				else if((retval == PAD_DOWN))	{ //Decrease DY
+					YOffset -= 4;
+					if(YOffset < -(2048/4)) YOffset += 4;
+					updateflag = 1; //exit inner loop
+				}
+				else if((retval == PAD_L1))	{ //Skip Videos toggle
+					skip_videos_idx ^= 1;
+					updateflag = 1; //exit inner loop
+				}
+
+			delay(1);
+
+			}	//---------- End of inner while loop ----------
+		}	//---------- End of outer while loop ----------
 
 		updateflag = -1;
+		halfWidth = gsGlobal->Width / 2;
+		if((predef_vmode_idx == 999)||(exit_option_idx == 999)){	//Nothing chosen yet
+			gsKit_clear(gsGlobal, Black);
+			gsFontM->Align = GSKIT_FALIGN_CENTER;
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, halfWidth, 210, 1, 0.6f, RedFont, "Choose what you want!");
+			gsFontM->Align = GSKIT_FALIGN_LEFT;
+			Draw_Screen();
+			delay(6);
+			goto outer_loop_restart;
+		}
 
-					
-		// Pad stuff
-		//---------- Start of inner while loop ----------
-		while (updateflag == -1) {
+		//
+		//Exit procedures
+		//
 
-			while(!(waitAnyPadReady(), readpad(), new_pad)); //await a new button
-			retval = paddata;
-			
-			if(retval == PAD_TRIANGLE)	{ //VGA
-				if (predef_vmode[predef_vmode_idx].category != VGA_VMODE) predef_vmode_idx = -1;
-				do
-				{
-					predef_vmode_idx++;
-					if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
-				}while (predef_vmode[predef_vmode_idx].category != VGA_VMODE);
-
-				updateflag = 1; //exit inner loop
-			}	
-			else if(retval == PAD_SQUARE){ //HDTV
-				if (predef_vmode[predef_vmode_idx].category != HDTV_VMODE) predef_vmode_idx = -1;
-				do
-				{
-					predef_vmode_idx++;
-					if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
-				}while (predef_vmode[predef_vmode_idx].category != HDTV_VMODE);
-
-				updateflag = 1; //exit inner loop
-
-			}	
-			else if(retval == PAD_CIRCLE)	{ //NTSC/PAL
-				if (predef_vmode[predef_vmode_idx].category != SDTV_VMODE) predef_vmode_idx = -1;
-				do
-				{
-					predef_vmode_idx++;
-					if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
-				}while (predef_vmode[predef_vmode_idx].category != SDTV_VMODE);
-
-				updateflag = 1; //exit inner loop
-			}	
-			else if(retval == PAD_CROSS)	{ //PS1 NTSC/PAL
-				if (predef_vmode[predef_vmode_idx].category != PS1_VMODE) predef_vmode_idx = -1;
-				do
-				{
-					predef_vmode_idx++;
-					if(predef_vmode_idx > (predef_vmode_size - 1)) predef_vmode_idx = 0;
-				}while (predef_vmode[predef_vmode_idx].category != PS1_VMODE);
-
-				updateflag = 1; //exit inner loop
-			}
-			else if((retval == PAD_SELECT))	{ //Select Exit Method
-				exit_option_idx++;
-				if(exit_option_idx > (exit_option_size - 1)) exit_option_idx = 0;
-				updateflag = 1; //exit inner loop
-			}
-			else if(retval == PAD_START)	{ //Exit GSM
-				updateflag = 0; //exit outer loop
-			}
-			else if((retval == PAD_LEFT))	{ //Decrease DX
-				XOffset -= 4;
-				if(XOffset < -(4096/4)) XOffset += 4;
-				updateflag = 1; //exit inner loop
-			}
-			else if((retval == PAD_RIGHT))	{ //Increase DX
-				XOffset += 4;
-				if(XOffset > (4096/4)) XOffset -= 4;
-				updateflag = 1; //exit inner loop
-			}
-			else if((retval == PAD_UP))	{ //Increase DY
-				YOffset += 4;
-				if(YOffset > (2048/4)) YOffset -= 4;
-				updateflag = 1; //exit inner loop
-			}
-			else if((retval == PAD_DOWN))	{ //Decrease DY
-				YOffset -= 4;
-				if(YOffset < -(2048/4)) YOffset += 4;
-				updateflag = 1; //exit inner loop
-			}
-			else if((retval == PAD_L1))	{ //Skip Videos toggle
-				skip_videos_idx ^= 1;
-				updateflag = 1; //exit inner loop
-			}
-
-		delay(1);
-
-		}	//---------- End of inner while loop ----------
-	}	//---------- End of outer while loop ----------
-
-	updateflag = -1;
-	halfWidth = gsGlobal->Width / 2;
-	if((predef_vmode_idx == 999)||(exit_option_idx == 999)){	//Nothing chosen yet
+		//OSD	
 		gsKit_clear(gsGlobal, Black);
 		gsFontM->Align = GSKIT_FALIGN_CENTER;
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, halfWidth, 210, 1, 0.6f, RedFont, "Choose what you want!");
-		gsFontM->Align = GSKIT_FALIGN_LEFT;
+		
+		if(exit_option_idx == 0) {
+			gsKit_fontm_print_scaled(gsGlobal, gsFontM, halfWidth, 210, 1, 0.6f, DeepSkyBlueFont, "Exiting to PS2 BROWSER...");
+		}
+		else {
+			sprintf(tempstr, "%s", exit_option[exit_option_idx].elf_path);
+			strcpy(elf_path, tempstr);
+			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, halfWidth, 210, 1, 0.6f, DeepSkyBlueFont, "Loading %s ...", elf_path);
+		}
 		Draw_Screen();
-		delay(6);
-		goto outer_loop_restart;
+		delay(4);
+	} else {
+		char a0[8];
+		char *e;
+		
+		strncpy(a0, p0+1, 7);
+		
+		long n = strtol(a0, &e, 16);
+		
+		XOffset = ((n >> 20) & 0xff) - 127;
+		YOffset = ((n >> 12) & 0xff) - 127;
+		predef_vmode_idx = ((n >> 4) & 0xff) % predef_vmode_size;
+		exit_option_idx = (n & 0xf) % exit_option_size;
 	}
-
-	//
-	//Exit procedures
-	//
-
-	//OSD	
-	gsKit_clear(gsGlobal, Black);
-	gsFontM->Align = GSKIT_FALIGN_CENTER;
-	
-	if(exit_option_idx == 0) {
-		gsKit_fontm_print_scaled(gsGlobal, gsFontM, halfWidth, 210, 1, 0.6f, DeepSkyBlueFont, "Exiting to PS2 BROWSER...");
-	}
-	else {
-		sprintf(tempstr, "%s", exit_option[exit_option_idx].elf_path);
-		strcpy(elf_path, tempstr);
-		gsKit_fontm_printf_scaled(gsGlobal, gsFontM, halfWidth, 210, 1, 0.6f, DeepSkyBlueFont, "Loading %s ...", elf_path);
-	}
-	Draw_Screen();
-	delay(4);
 
 	// Cleanup gsKit and others stuffs
 	gsKit_vram_clear(gsGlobal);
