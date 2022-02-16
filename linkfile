@@ -1,10 +1,7 @@
-
-
-ENTRY(_start);
+ENTRY(__start);
 
 SECTIONS {
-
-	.text 0x00100000: { 
+	.text 0x00100000: {
 		_ftext = . ;
 		*(.text)
 		*(.text.*)
@@ -91,7 +88,6 @@ SECTIONS {
 }
 
 SECTIONS {
-
 	.gsm_engine 0x00080000: {
 		_ftext = . ;
 		*(.gsm_engine)
@@ -102,6 +98,4 @@ SECTIONS {
 
 	PROVIDE(_egsm_engine = .);
 	PROVIDE(egsm_engine = .);
-
 }
-

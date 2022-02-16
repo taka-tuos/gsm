@@ -13,6 +13,7 @@
 #define NEWLIB_PORT_AWARE
 #include <syscallnr.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <kernel.h>
 #include <malloc.h>
 #include <string.h>
@@ -703,9 +704,15 @@ outer_loop_restart:
 				rownumber++;
 			}
 			gsKit_fontm_printf_scaled(gsGlobal, gsFontM, edge_size, (++rownumber)*11, 1, 0.4f, YellowFont, "Skip Videos fix: %s", off_on[skip_videos_idx].desc);
+<<<<<<< HEAD
 
 			Draw_Screen();
 
+=======
+
+			Draw_Screen();
+
+>>>>>>> 8369079 (updating (PARTITIAL AND NOT WORKING)(choose mode from filename,fitting to new toolchain,etc...))
 			updateflag = -1;
 
 						

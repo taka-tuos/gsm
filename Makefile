@@ -1,5 +1,3 @@
-.SILENT:
-
 PACKAGE = GSM
 EE_BIN = $(PACKAGE).ELF
 EE_OBJS := gsm_engine.o gsm_api.o elf.o loader.o
@@ -10,7 +8,9 @@ EE_INCS +=  -I$(PS2SDK)/ee/include -I$(PS2SDK)/ports/include -I$(GSKIT)/include 
 
 EE_LIBS = -lmc -lpad -lfileXio -lpatches -ldebug -lc -lkernel -L$(GSKIT)/lib -lgskit -ldmakit
 
-EE_LDFLAGS =  -L$(PS2SDK)/ee/lib -L$(PS2SDK)/sbv/lib -s
+EE_LINKFILE = linkfile
+
+EE_LDFLAGS = -L$(PS2SDK)/ee/lib -L$(PS2SDK)/sbv/lib -s
 
 #EE_LDFLAGS += -Xlinker -Map -Xlinker 'uncompressed $(PACKAGE).map'
 
@@ -21,7 +21,7 @@ all: $(EE_BIN)
 	 ps2-packer 'uncompressed $(PACKAGE).ELF' $(PACKAGE).ELF > /dev/null
 
 dump:
-	mips64r5900el-ps2-elf-objdump -D 'uncompressed $(PACKAGE).ELF' > $(PACKAGE).dump
+	$(EE_PREFIX)objdump -D 'uncompressed $(PACKAGE).ELF' > $(PACKAGE).dump
 	ps2client netdump
 
 test:
@@ -33,7 +33,7 @@ run:
 	ps2client -h $(PS2_IP) execee host:$(PACKAGE).ELF
 
 line:
-	ee-addr2line -e 'uncompressed $(PACKAGE).ELF' $(ADDR)
+	$(EE_PREFIX)addr2line -e 'uncompressed $(PACKAGE).ELF' $(ADDR)
 
 reset:
 	ps2client -h $(PS2_IP) reset
