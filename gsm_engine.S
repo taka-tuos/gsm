@@ -7,9 +7,6 @@
 # Review LICENSE file for further details.
 #
 
-<<<<<<< HEAD
-#include <as_reg_compat.h>
-=======
 #define zero    0
 #define at      1
 #define v0      2
@@ -42,7 +39,6 @@
 #define sp      29
 #define fp      30
 #define ra      31
->>>>>>> 8369079 (updating (PARTITIAL AND NOT WORKING)(choose mode from filename,fitting to new toolchain,etc...))
 
 #include <ee_cop0_defs.h>
 #include <syscallnr.h>
