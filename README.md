@@ -29,7 +29,7 @@ ELFの名前の先頭が``'V'``だと自動設定モードで起動します(以
 以下はわかる人&自分向け雑なまとめ  
 1. Wineを入れる(binfmtも忘れずに)  
 1. ps2dev部分を引っこ抜いて適当な場所に置く
-1. msys/1.0/bin/のDLLをWine上でPATHが通ってるところ(僕は~/.wine/drive_cにフォルダ生やしてregeditでPATH足しました)に置く
+1. MinGW/bin/のDLLをWine上でPATHが通ってるところ(僕は~/.wine/drive_cにフォルダ生やしてregeditでPATH足しました)に置く
 1. ``find ps2dev/ -name *.exe | rev | cut -f 2- -d "." | rev | xargs -n1 readlink -f | xargs -I{} ln -s {}.exe {}``
 1. ドキュメントを見て(Linux側の)環境変数を設定する($PS2DEVなど)
 
